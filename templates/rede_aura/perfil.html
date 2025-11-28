@@ -1,0 +1,110 @@
+{% extends 'rede_aura/base_dashboard.html' %}
+
+{% block aura_content %}
+
+<style>
+    .profile-card {
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        border: none;
+    }
+
+    .profile-avatar {
+        width: 120px; height: 120px;
+        background: linear-gradient(135deg, #a93eff 0%, #ff4eb8 100%);
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        color: white; font-size: 40px; font-weight: bold;
+        box-shadow: 0 8px 20px rgba(169, 62, 255, 0.3);
+        margin-bottom: 20px;
+        border: 4px solid white;
+        overflow: hidden; /* Garante que a imagem não vaze do círculo */
+    }
+
+    .info-group { margin-bottom: 25px; }
+    .info-label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; display: block; margin-bottom: 5px; }
+    .info-value { font-size: 16px; font-weight: 500; color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px; width: 100%; display: block; }
+
+    .btn-edit {
+        background: linear-gradient(90deg, #a93eff, #d63384);
+        border: none; color: white; font-weight: bold;
+        padding: 12px 30px; border-radius: 12px;
+        width: 100%; transition: transform 0.2s;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+    }
+    .btn-edit:hover { transform: translateY(-2px); opacity: 0.95; color: white; text-decoration: none; }
+</style>
+
+<h4 class="font-weight-bold mb-4 text-dark">Meu Perfil</h4>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="profile-card text-center">
+            <div class="mx-auto profile-avatar">
+                {% if user.planoseguranca.foto %}
+                    <img src="{{ user.planoseguranca.foto.url }}" style="width: 100%; height: 100%; object-fit: cover;">
+                {% else %}
+                    {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}
+                {% endif %}
+            </div>
+
+            <h5 class="font-weight-bold text-dark mb-1">{{ user.first_name }} {{ user.last_name }}</h5>
+            <p class="text-muted small mb-3">{{ user.email }}</p>
+            <p class="text-muted small mb-4" style="font-family: monospace;">{{ user.fone|default:"(00) 00000-0000" }}</p>
+            
+            <a href="{% url 'editar_perfil' %}" class="btn-edit">Editar Foto</a>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="profile-card">
+            <h5 class="font-weight-bold mb-4" style="color: #333;">Informações Pessoais</h5>
+            
+            <div class="row">
+                <div class="col-md-6 info-group">
+                    <span class="info-label">CPF</span>
+                    <span class="info-value">{{ user.planoseguranca.cpf|default:"Não informado" }}</span>
+                </div>
+                <div class="col-md-6 info-group">
+                    <span class="info-label">Data de Nascimento</span>
+                    <span class="info-value">{{ user.planoseguranca.data_nascimento|date:"d/m/Y"|default:"Não informado" }}</span>
+                </div>
+            </div>
+
+            <div class="info-group">
+                <span class="info-label">Endereço</span>
+                <span class="info-value">{{ user.planoseguranca.endereco|default:"Não informado" }}</span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 info-group">
+                    <span class="info-label">Cadastro realizado em</span>
+                    <span class="info-value">{{ user.date_joined|date:"d/m/Y" }}</span>
+                </div>
+                <div class="col-md-6 info-group">
+                    <span class="info-label">Consentimento aceito em</span>
+                    <span class="info-value">
+                        {% if user.planoseguranca.data_aceite_termo %}
+                            {{ user.planoseguranca.data_aceite_termo|date:"d/m/Y" }} às {{ user.planoseguranca.data_aceite_termo|date:"H:i" }}
+                        {% else %}
+                            Pendente
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="text-right">
+                <a href="{% url 'editar_perfil' %}" class="btn-edit" style="width: auto;">Editar Informações</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="height: 50px;"></div>
+{% endblock %}

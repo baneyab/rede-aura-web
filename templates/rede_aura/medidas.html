@@ -1,0 +1,107 @@
+{% extends 'rede_aura/base_dashboard.html' %}
+
+{% block aura_content %}
+
+<style>
+    .medida-card {
+        background: white;
+        border: 1px solid #f0f0f0;
+        border-radius: 20px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        border-left: 5px solid #a93eff; /* Borda roxa lateral */
+        transition: transform 0.2s;
+    }
+    .medida-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(169, 62, 255, 0.1);
+    }
+    
+    .icon-shield-bg {
+        background-color: #f3e5f5;
+        color: #a93eff;
+        width: 60px; height: 60px;
+        border-radius: 15px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 26px;
+    }
+
+    .badge-active {
+        background-color: #d4edda;
+        color: #155724;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 12px;
+    }
+    
+    .badge-expired {
+        background-color: #f8f9fa;
+        color: #6c757d;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 12px;
+    }
+
+    .label-info {
+        font-size: 11px;
+        text-transform: uppercase;
+        color: #888;
+        letter-spacing: 0.5px;
+        margin-bottom: 2px;
+    }
+    
+    .value-info {
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+    }
+</style>
+
+<h4 class="font-weight-bold mb-4 text-dark">Minhas Medidas Protetivas</h4>
+
+{% for medida in medidas %}
+<div class="medida-card">
+    <div class="d-flex justify-content-between align-items-start mb-4">
+        <div class="d-flex align-items-center">
+            <div class="icon-shield-bg mr-3">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <div>
+                <h5 class="font-weight-bold mb-1" style="color: #333;">{{ medida.titulo }}</h5>
+                <p class="text-muted mb-0 small">{{ medida.descricao }}</p>
+            </div>
+        </div>
+        
+        {% if medida.ativa %}
+            <span class="badge-active">Ativa</span>
+        {% else %}
+            <span class="badge-expired">Expirada</span>
+        {% endif %}
+    </div>
+
+    <hr style="border-top: 1px solid #f5f5f5;">
+
+    <div class="row mt-3">
+        <div class="col-md-6 mb-2">
+            <div class="label-info">Válida até</div>
+            <div class="value-info">{{ medida.data_validade|date:"d/m/Y" }}</div>
+        </div>
+        <div class="col-md-6 text-md-right">
+            <div class="label-info">Processo</div>
+            <div class="value-info" style="font-family: monospace;">{{ medida.numero_processo }}</div>
+        </div>
+    </div>
+</div>
+{% empty %}
+<div class="text-center py-5">
+    <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px;">
+        <i class="fas fa-folder-open text-muted" style="font-size: 30px;"></i>
+    </div>
+    <h6 class="text-muted">Nenhuma medida protetiva registrada.</h6>
+</div>
+{% endfor %}
+
+{% endblock %}

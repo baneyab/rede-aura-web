@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termo de Consentimento - Rede Aura</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f4f6f9;
+            margin: 0; padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Cabeçalho Roxo Fixo */
+        .term-header {
+            background: linear-gradient(135deg, #a93eff 0%, #ff4eb8 100%);
+            color: white;
+            padding: 40px 20px 80px 20px; /* Padding extra embaixo para o card subir */
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        /* Card Principal */
+        .term-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 800px;
+            margin: -50px auto 20px auto; /* Sobe em cima do header */
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            height: 70vh;
+        }
+
+        /* Área de Texto com Rolagem */
+        .term-body {
+            padding: 30px;
+            overflow-y: auto;
+            text-align: justify;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Barra de Rolagem Personalizada */
+        .term-body::-webkit-scrollbar { width: 8px; }
+        .term-body::-webkit-scrollbar-thumb { background-color: #ccc; border-radius: 4px; }
+
+        /* Rodapé do Card (Botões) */
+        .term-footer {
+            background-color: #fff;
+            border-top: 1px solid #eee;
+            padding: 20px 30px;
+            flex-shrink: 0;
+        }
+
+        /* Estilos de Texto */
+        h1, h2, h3, h4, h5, h6 { color: #8e44ad; font-weight: 700; margin-top: 20px; }
+        ul { padding-left: 20px; }
+        .warning-box {
+            background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404;
+            padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 13px;
+        }
+
+        /* Botões */
+        .btn-accept {
+            background: linear-gradient(90deg, #a93eff, #ff4eb8);
+            color: white; border: none; font-weight: 700;
+            padding: 12px 30px; border-radius: 50px;
+            transition: 0.3s; width: 100%;
+        }
+        .btn-accept:hover { transform: scale(1.02); color: white; opacity: 0.9; }
+
+        .btn-deny {
+            background: #e9ecef; color: #6c757d; border: none;
+            font-weight: 600; padding: 12px 30px; border-radius: 50px;
+            width: 100%; transition: 0.2s;
+        }
+        .btn-deny:hover { background: #dde2e6; color: #333; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <div class="term-header">
+        <div class="mb-3">
+            <div style="width: 60px; height: 60px; background: rgba(255,255,255,0.2); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                <i class="fas fa-shield-alt" style="font-size: 30px;"></i>
+            </div>
+        </div>
+        <h3 style="font-weight: 800; margin: 0;">Rede Aura</h3>
+        <small style="opacity: 0.9;">Polícia Militar de Santa Catarina</small>
+        <h5 style="color: white; margin-top: 15px; font-size: 1.2rem;">Termo de Consentimento e Uso</h5>
+        <p class="small mb-0" style="opacity: 0.8;">Por favor, leia atentamente antes de prosseguir</p>
+    </div>
+
+    <div class="term-card">
+        <div class="term-body">
+            
+            <div class="warning-box">
+                <i class="fas fa-exclamation-triangle mr-1"></i>
+                <strong>Importante:</strong> Este aplicativo destina-se exclusivamente ao amparo e proteção de mulheres em situação de vulnerabilidade, conforme a Lei Maria da Penha (Lei nº 11.340/2006).
+            </div>
+
+            <h5>1. Objetivo do Aplicativo</h5>
+            <p>O Rede Aura é uma ferramenta desenvolvida pela Polícia Militar de Santa Catarina para oferecer proteção, monitoramento e suporte a mulheres que possuem medidas protetivas de urgência deferidas pela Justiça. O aplicativo integra funcionalidades de geolocalização, alertas de emergência, e comunicação direta com autoridades competentes.</p>
+
+            <h5>2. Coleta e Uso de Dados Pessoais</h5>
+            <p>Ao utilizar este aplicativo, você consente expressamente com a coleta e tratamento dos seguintes dados:</p>
+            <ul>
+                <li>Dados de identificação pessoal (nome, CPF, RG, data de nascimento)</li>
+                <li>Dados de contato (telefone, e-mail, endereço residencial)</li>
+                <li>Dados de localização em tempo real (GPS)</li>
+                <li>Histórico de deslocamentos e trajetos</li>
+                <li>Dados de medidas protetivas deferidas</li>
+                <li>Registros de interações com o sistema (alertas, mensagens, chamadas)</li>
+                <li>Informações sobre agressor(es) conforme processo judicial</li>
+            </ul>
+
+            <h5>3. Finalidade do Tratamento de Dados</h5>
+            <p>Os dados coletados serão utilizados exclusivamente para:</p>
+            <ul>
+                <li>Monitoramento do cumprimento de medidas protetivas de urgência</li>
+                <li>Acionamento de autoridades em situações de emergência</li>
+                <li>Geração de relatórios e estatísticas para autoridades competentes</li>
+                <li>Implementação do sistema de score de risco</li>
+                <li>Verificação de aproximação entre vítima e agressor</li>
+                <li>Comunicação com a Polícia Militar, Poder Judiciário e Ministério Público</li>
+            </ul>
+
+            <h5>4. Compartilhamento de Dados</h5>
+            <p>Você autoriza expressamente o compartilhamento de seus dados com:</p>
+            <ul>
+                <li>Polícia Militar de Santa Catarina</li>
+                <li>Polícia Civil de Santa Catarina</li>
+                <li>Poder Judiciário do Estado de Santa Catarina</li>
+                <li>Ministério Público de Santa Catarina</li>
+                <li>Defensoria Pública de Santa Catarina</li>
+                <li>Órgãos de assistência social e saúde vinculados ao Estado</li>
+            </ul>
+
+            <h5>5. Geolocalização e Monitoramento</h5>
+            <p>Ao aceitar este termo, você autoriza:</p>
+            <ul>
+                <li>Coleta contínua de sua localização geográfica em tempo real</li>
+                <li>Armazenamento do histórico de localização</li>
+                <li>Envio automático de alertas às autoridades em caso de descumprimento de medida protetiva</li>
+                <li>Acionamento de protocolo de emergência baseado em proximidade com agressor</li>
+            </ul>
+
+            <h5>6. Sistema de Score de Risco</h5>
+            <p>O aplicativo utiliza um algoritmo de análise de risco que considera diversos fatores para determinar o nível de vulnerabilidade. Este score pode ser acessado pelas autoridades para priorização de atendimentos e definição de estratégias de proteção.</p>
+
+            <h5>7. Segurança e Armazenamento</h5>
+            <p>Todos os dados são armazenados em servidores seguros com criptografia. O acesso é restrito a servidores públicos autorizados. Os dados serão mantidos pelo prazo necessário ao cumprimento das medidas protetivas, podendo ser mantidos por prazo superior se necessário para investigações ou processos judiciais.</p>
+
+            <h5>8. Seus Direitos</h5>
+            <p>Conforme a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018), você tem direito a:</p>
+            <ul>
+                <li>Confirmação da existência de tratamento de dados</li>
+                <li>Acesso aos dados armazenados</li>
+                <li>Correção de dados incompletos ou desatualizados</li>
+                <li>Informações sobre compartilhamento de dados</li>
+            </ul>
+            <p><em>Importante: Alguns direitos podem ser limitados pela natureza do serviço e pela necessidade de proteção judicial. A exclusão de dados pode impossibilitar o funcionamento adequado das medidas protetivas.</em></p>
+
+            <h5>9. Consentimento</h5>
+            <p>Ao aceitar este termo, você declara:</p>
+            <ul>
+                <li>Ter lido e compreendido todas as cláusulas deste termo</li>
+                <li>Consentir livre e expressamente com a coleta e tratamento de dados conforme descrito</li>
+                <li>Autorizar o compartilhamento de informações com as autoridades mencionadas</li>
+                <li>Estar ciente de que o aplicativo não substitui medidas judiciais formais</li>
+                <li>Compreender que o uso do aplicativo é voluntário e complementar às medidas protetivas</li>
+            </ul>
+
+            <h5>10. Base Legal</h5>
+            <p>O tratamento de dados realizado pelo Rede Aura fundamenta-se nas seguintes bases legais:</p>
+            <ul>
+                <li>Lei Maria da Penha (Lei nº 11.340/2006)</li>
+                <li>Lei Geral de Proteção de Dados - LGPD (Lei nº 13.709/2018)</li>
+                <li>Constituição Federal de 1988</li>
+                <li>Código de Processo Penal</li>
+            </ul>
+            
+            <hr>
+            <p class="small text-muted mb-0">Contato: Em caso de dúvidas, entre em contato através do e-mail: redeaura@pm.sc.gov.br.</p>
+        </div>
+
+        <div class="term-footer">
+            <form method="POST" class="w-100">
+                {% csrf_token %}
+                
+                <div class="custom-control custom-checkbox mb-4 text-center">
+                    <input type="checkbox" class="custom-control-input" id="checkAceite" required>
+                    <label class="custom-control-label text-muted small" for="checkAceite">
+                        Declaro que li e aceito todos os termos descritos acima e concordo com o compartilhamento dos meus dados.
+                    </label>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <a href="{% url 'logout' %}" class="btn btn-deny">
+                            <i class="fas fa-times-circle mr-2"></i> Recusar
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <button type="submit" class="btn btn-accept">
+                            <i class="fas fa-check-circle mr-2"></i> Aceitar e Continuar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

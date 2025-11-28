@@ -1,0 +1,71 @@
+{% extends 'rede_aura/base_dashboard.html' %}
+
+{% block aura_content %}
+<div class="container mt-4">
+    <h4 class="font-weight-bold mb-4 text-dark">Editar Informações</h4>
+
+    <div class="card border-0 shadow-sm" style="border-radius: 20px;">
+        <div class="card-body p-5">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="text-center mb-5">
+                    <div class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle bg-light overflow-hidden" style="width: 120px; height: 120px; border: 4px solid #a93eff;">
+                        {% if form.instance.foto %}
+                            <img src="{{ form.instance.foto.url }}" style="width: 100%; height: 100%; object-fit: cover;">
+                        {% else %}
+                            <i class="fas fa-user text-muted" style="font-size: 50px;"></i>
+                        {% endif %}
+                    </div>
+                    <label class="btn btn-sm btn-outline-primary rounded-pill px-4">
+                        Alterar Foto <input type="file" name="foto" hidden>
+                    </label>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="small font-weight-bold text-muted">Nome</label>
+                        {{ form.first_name }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="small font-weight-bold text-muted">Sobrenome</label>
+                        {{ form.last_name }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="small font-weight-bold text-muted">CPF</label>
+                        {{ form.cpf }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="small font-weight-bold text-muted">Data de Nascimento</label>
+                        {{ form.data_nascimento }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="small font-weight-bold text-muted">Telefone</label>
+                        {{ form.fone }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="small font-weight-bold text-muted">E-mail (Não editável)</label>
+                        {{ form.email }}
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="small font-weight-bold text-muted">Endereço Completo</label>
+                    {{ form.endereco }}
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <a href="{% url 'perfil' %}" class="btn btn-light mr-2 rounded-pill px-4">Cancelar</a>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4" style="background: #a93eff; border: none;">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

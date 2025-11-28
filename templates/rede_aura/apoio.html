@@ -1,0 +1,149 @@
+{% extends 'rede_aura/base_dashboard.html' %}
+
+{% block aura_content %}
+<style>
+    .card-apoio {
+        border: none;
+        border-radius: 20px;
+        transition: transform 0.2s;
+        height: 100%;
+        color: white;
+        padding: 20px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    .card-apoio:hover { transform: translateY(-5px); }
+    
+    /* Cores específicas do vídeo */
+    .bg-roxo { background: linear-gradient(135deg, #6f42c1, #8e44ad); }
+    .bg-rosa { background: linear-gradient(135deg, #e83e8c, #ff758c); }
+    .bg-azul { background: linear-gradient(135deg, #007bff, #4facfe); }
+    .bg-laranja { background: linear-gradient(135deg, #fd7e14, #fcb045); }
+
+    .icon-bg {
+        font-size: 80px;
+        position: absolute;
+        right: -10px;
+        bottom: -10px;
+        opacity: 0.2;
+    }
+
+    .section-title {
+        font-weight: 700;
+        color: #333;
+        margin-top: 30px;
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="container pb-5">
+    
+    <h3 class="font-weight-bold mb-1 text-dark">Rede de Apoio</h3>
+    <p class="text-muted mb-4">Profissionais e serviços especializados para te ajudar</p>
+
+    <div class="row mb-4">
+        <div class="col-md-6 mb-3">
+            <div class="card-apoio bg-roxo" onclick="location.href='{% url 'agendar_consulta' %}'">
+                <h5 class="font-weight-bold">Agendar Atendimento</h5>
+                <p class="small mb-0">Agende consultas com profissionais</p>
+                <i class="fas fa-calendar-alt icon-bg"></i>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card-apoio bg-rosa" onclick="location.href='{% url 'lista_profissionais' %}'">
+                <h5 class="font-weight-bold">Profissionais</h5>
+                <p class="small mb-0">Veja a lista de especialistas</p>
+                <i class="fas fa-user-doctor icon-bg"></i>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card-apoio bg-azul" onclick="location.href='{% url 'lista_direitos' %}'">
+                <h5 class="font-weight-bold">Seus Direitos</h5>
+                <p class="small mb-0">Conheça seus direitos e garantias</p>
+                <i class="fas fa-scale-balanced icon-bg"></i>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card-apoio bg-laranja" onclick="location.href='{% url 'meus_agendamentos' %}'">
+                <h5 class="font-weight-bold">Meus Agendamentos</h5>
+                <p class="small mb-0">Gerencie todas as suas consultas confirmadas</p>
+                <i class="fas fa-calendar-check icon-bg"></i>
+            </div>
+        </div>
+    </div>
+
+    <h5 class="section-title">Áreas de Atendimento</h5>
+    <div class="row text-center mb-4">
+        <div class="col-4 mb-3">
+            <div class="bg-white p-3 shadow-sm rounded-lg h-100">
+                <i class="fas fa-brain fa-2x text-primary mb-2"></i>
+                <h6 class="font-weight-bold small">Psicologia</h6>
+                <small class="text-muted">15 profissionais</small>
+            </div>
+        </div>
+        <div class="col-4 mb-3">
+            <div class="bg-white p-3 shadow-sm rounded-lg h-100">
+                <i class="fas fa-gavel fa-2x text-danger mb-2"></i>
+                <h6 class="font-weight-bold small">Jurídico</h6>
+                <small class="text-muted">12 profissionais</small>
+            </div>
+        </div>
+        <div class="col-4 mb-3">
+            <div class="bg-white p-3 shadow-sm rounded-lg h-100">
+                <i class="fas fa-hands-helping fa-2x text-success mb-2"></i>
+                <h6 class="font-weight-bold small">Assis. Social</h6>
+                <small class="text-muted">8 profissionais</small>
+            </div>
+        </div>
+    </div>
+
+    <h5 class="section-title">Contatos Recomendados</h5>
+    <div class="list-group shadow-sm rounded-lg mb-4">
+        {% for contato in contatos_uteis %}
+        <div class="list-group-item border-0 border-bottom py-3">
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <div class="bg-light rounded-circle p-3 mr-3 text-danger">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 font-weight-bold">{{ contato.nome }}</h6>
+                        <small class="text-muted">{{ contato.desc }}</small>
+                    </div>
+                </div>
+                <h5 class="text-danger font-weight-bold mb-0">{{ contato.numero }}</h5>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h5 class="section-title">Casas de Acolhimento</h5>
+    {% for casa in casas %}
+    <div class="card border-0 shadow-sm mb-3" style="border-radius: 15px;">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h6 class="font-weight-bold mb-1">{{ casa.nome }}</h6>
+                    <p class="text-muted small mb-2">
+                        <i class="fas fa-map-marker-alt mr-1"></i> {{ casa.endereco }}
+                    </p>
+                    <span class="badge badge-success p-2 px-3 rounded-pill">
+                        <i class="fas fa-bed mr-1"></i> {{ casa.vagas_disponiveis }} vagas disponíveis
+                    </span>
+                </div>
+                <button class="btn btn-outline-primary btn-sm rounded-pill font-weight-bold">
+                    Solicitar Vaga
+                </button>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p class="text-muted text-center">Nenhuma casa cadastrada no momento.</p>
+    {% endfor %}
+
+</div>
+{% endblock %}

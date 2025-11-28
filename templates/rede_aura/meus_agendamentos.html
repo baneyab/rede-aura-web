@@ -1,0 +1,53 @@
+{% extends 'rede_aura/base_dashboard.html' %}
+
+{% block aura_content %}
+<div class="container">
+    <div class="d-flex align-items-center mb-4">
+        <a href="{% url 'apoio' %}" class="text-dark mr-3"><i class="fas fa-arrow-left"></i></a>
+        <h4 class="font-weight-bold mb-0">Meus Agendamentos</h4>
+    </div>
+
+    {% if agendamentos %}
+        {% for agendamento in agendamentos %}
+        <div class="card border-0 shadow-sm mb-3" style="border-radius: 15px;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    
+                    <div class="d-flex align-items-center">
+                        <div class="bg-primary text-white rounded-circle p-3 mr-3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0 font-weight-bold">{{ agendamento.profissional.nome }}</h6>
+                            <small class="text-muted">{{ agendamento.profissional.profissao }}</small>
+                            <p class="mb-0 small text-dark mt-1">
+                                <i class="fas fa-clock mr-1"></i> 
+                                {{ agendamento.data_hora|date:"d/m/Y" }} às {{ agendamento.data_hora|date:"H:i" }} ({{ agendamento.get_tipo_display }})
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <span class="badge badge-success p-2 px-3">{{ agendamento.status }}</span>
+                        <div class="dropdown d-inline-block ml-2">
+                            <button class="btn btn-light btn-sm rounded-circle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right shadow">
+                                <a class="dropdown-item text-danger" href="#">Cancelar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info text-center shadow-sm" style="border-radius: 15px;">
+            <i class="fas fa-info-circle mr-2"></i> Você não possui agendamentos ativos.
+            <a href="{% url 'agendar_consulta' %}" class="alert-link font-weight-bold ml-2">Agende uma consulta!</a>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

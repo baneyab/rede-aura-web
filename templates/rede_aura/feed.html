@@ -1,0 +1,136 @@
+{% extends 'rede_aura/base_dashboard.html' %}
+
+{% block aura_content %}
+
+<style>
+    .card-panel {
+        background: white;
+        border-radius: 20px;
+        border: none;
+        padding: 25px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        height: 100%;
+        transition: transform 0.2s ease;
+    }
+    .card-panel:hover { transform: translateY(-5px); cursor: pointer; }
+    
+    .card-icon {
+        width: 45px; height: 45px; 
+        border-radius: 12px;
+        display: flex; align-items: center; justify-content: center;
+        margin-bottom: 15px; font-size: 20px;
+    }
+    .pulse-white { animation: pulse-w 2s infinite; }
+    @keyframes pulse-w {
+        0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+        70% { box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+    }
+</style>
+
+<div class="mb-4">
+    <h2 class="font-weight-bold mb-1" style="color: #2d3436;">Olá, {{ user.first_name|default:user.username }}! 👋</h2>
+    <p class="text-muted">Aqui está o resumo da sua segurança hoje.</p>
+</div>
+
+<div class="card border-0 shadow-sm mb-5" style="background: linear-gradient(90deg, #ff4757, #ff6b81); color: white; border-radius: 20px; overflow: hidden;">
+    <div class="card-body p-5 d-flex justify-content-between align-items-center">
+        <div>
+            <h2 class="font-weight-bold mb-2">Botão de Emergência</h2>
+            <p class="mb-0" style="font-size: 1.1rem; opacity: 0.9;">Pressione para acionar a Polícia Militar e seus contatos.</p>
+        </div>
+        <a href="{% url 'emergencia' %}" class="btn btn-white rounded-circle shadow pulse-white" 
+           style="width: 90px; height: 90px; background: white; color: #ff4757; display: flex; align-items: center; justify-content: center; font-size: 35px; border: none;">
+            <i class="fas fa-phone-alt"></i>
+        </a>
+    </div>
+</div>
+
+<div class="card-panel mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <h5 class="font-weight-bold text-dark m-0">Nível de Risco</h5>
+        <span class="badge px-3 py-2 text-dark" style="background-color: #fff3cd; border-radius: 10px;">Médio</span>
+    </div>
+    <p class="text-muted small mb-3">Avaliação baseada em múltiplos fatores</p>
+    
+    <div class="d-flex justify-content-between small font-weight-bold mb-1">
+        <span>Score de Segurança</span>
+        <span>65/100</span>
+    </div>
+    <div class="progress" style="height: 8px; border-radius: 5px; background-color: #eee;">
+        <div class="progress-bar" role="progressbar" style="width: 65%; background-color: #ffc107;"></div>
+    </div>
+    <small class="text-muted mt-3 d-block">Última atualização: Hoje às 14:30</small>
+</div>
+
+<div class="row mb-4">
+    
+    <div class="col-md-4">
+        <a href="{% url 'medidas' %}" class="text-decoration-none">
+            <div class="card-panel">
+                <div class="card-icon" style="background-color: #dcd6f7; color: #a93eff;">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <small class="text-muted font-weight-bold">Medidas Ativas</small>
+                <h2 class="font-weight-bold m-0 mt-1 text-dark">2</h2>
+            </div>
+        </a>
+    </div>
+    
+    <div class="col-md-4">
+        <a href="{% url 'mapa' %}" class="text-decoration-none">
+            <div class="card-panel">
+                <div class="card-icon" style="background-color: #cce5ff; color: #007bff;">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <small class="text-muted font-weight-bold">Localização</small>
+                <h2 class="font-weight-bold m-0 mt-1 text-dark">Ativa</h2>
+            </div>
+        </a>
+    </div>
+    
+    <div class="col-md-4">
+        <a href="{% url 'alertas' %}" class="text-decoration-none">
+            <div class="card-panel">
+                <div class="card-icon" style="background-color: #d4edda; color: #28a745;">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <small class="text-muted font-weight-bold">Alertas Hoje</small>
+                <h2 class="font-weight-bold m-0 mt-1 text-dark">3</h2>
+            </div>
+        </a>
+    </div>
+
+</div>
+
+<div class="card-panel">
+    <h5 class="font-weight-bold mb-4">Atividades Recentes</h5>
+    
+    <div class="d-flex align-items-center mb-4 border-bottom pb-3" style="border-color: #f1f1f1 !important;">
+        <div class="rounded-circle d-flex align-items-center justify-content-center mr-3" 
+             style="width: 40px; height: 40px; background-color: #f3e5f5; color: #a93eff;">
+            <i class="fas fa-shield-alt"></i>
+        </div>
+        <div class="flex-grow-1">
+            <h6 class="font-weight-bold mb-0" style="font-size: 15px;">Medida protetiva renovada</h6>
+            <small class="text-muted">Validade estendida até 26/05/2026</small>
+        </div>
+        <small class="text-muted" style="font-size: 12px;">Há 2 dias</small>
+        <i class="fas fa-chevron-right text-muted ml-3" style="font-size: 12px;"></i>
+    </div>
+
+    <div class="d-flex align-items-center">
+        <div class="rounded-circle d-flex align-items-center justify-content-center mr-3" 
+             style="width: 40px; height: 40px; background-color: #e3f2fd; color: #007bff;">
+            <i class="fas fa-map-marker-alt"></i>
+        </div>
+        <div class="flex-grow-1">
+            <h6 class="font-weight-bold mb-0" style="font-size: 15px;">Localização atualizada</h6>
+            <small class="text-muted">Sistema de GPS verificado e funcionando</small>
+        </div>
+        <small class="text-muted" style="font-size: 12px;">Há 5 horas</small>
+        <i class="fas fa-chevron-right text-muted ml-3" style="font-size: 12px;"></i>
+    </div>
+</div>
+
+{% endblock %}

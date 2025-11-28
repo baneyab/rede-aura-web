@@ -1,0 +1,85 @@
+{% extends 'rede_aura/base_dashboard.html' %}
+
+{% block aura_content %}
+<div class="container pb-5">
+    <h3 class="font-weight-bold mb-3 text-dark">Seus direitos</h3>
+    <p class="text-muted mb-4">
+        Conheça alguns dos principais direitos e garantias previstos na legislação brasileira de proteção às mulheres.
+    </p>
+
+    {% if direitos %}
+        <div class="row">
+            {% for direito in direitos %}
+            <div class="col-md-6 mb-3">
+                <div class="card border-0 shadow-sm h-100" style="border-radius: 16px;">
+                    <div class="card-body">
+                        <span class="badge badge-primary mb-2">
+                            {{ direito.get_categoria_display }}
+                        </span>
+                        <h5 class="font-weight-bold mb-2">{{ direito.titulo }}</h5>
+                        <p class="text-muted mb-0">{{ direito.descricao }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="card border-0 shadow-sm h-100" style="border-radius: 16px;">
+                    <div class="card-body">
+                        <span class="badge badge-primary mb-2">Penal</span>
+                        <h5 class="font-weight-bold mb-2">Lei Maria da Penha</h5>
+                        <p class="text-muted mb-0">
+                            Você tem direito a medidas protetivas de urgência contra o agressor,
+                            como afastamento do lar, proibição de contato e proteção da sua integridade física e psicológica.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <div class="card border-0 shadow-sm h-100" style="border-radius: 16px;">
+                    <div class="card-body">
+                        <span class="badge badge-success mb-2">Trabalhista</span>
+                        <h5 class="font-weight-bold mb-2">Estabilidade e afastamento</h5>
+                        <p class="text-muted mb-0">
+                            Em situações de violência doméstica você pode solicitar afastamento do trabalho
+                            e tem direito à manutenção do vínculo empregatício durante o período definido pela Justiça.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <div class="card border-0 shadow-sm h-100" style="border-radius: 16px;">
+                    <div class="card-body">
+                        <span class="badge badge-info mb-2">Civil</span>
+                        <h5 class="font-weight-bold mb-2">Direito a atendimento gratuito</h5>
+                        <p class="text-muted mb-0">
+                            Você pode buscar orientação jurídica gratuita na Defensoria Pública
+                            para questões de guarda, pensão, divórcio e outras medidas de proteção.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <div class="card border-0 shadow-sm h-100" style="border-radius: 16px;">
+                    <div class="card-body">
+                        <span class="badge badge-warning mb-2">Informação</span>
+                        <h5 class="font-weight-bold mb-2">Canais oficiais de denúncia</h5>
+                        <p class="text-muted mb-1">
+                            • Ligue 180 – Central de Atendimento à Mulher, 24 horas, gratuito.<br>
+                            • Ligue 190 – Polícia Militar em caso de emergência imediata.
+                        </p>
+                        <p class="text-muted mb-0">
+                            As denúncias podem ser anônimas e servem para acionar a rede de proteção.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

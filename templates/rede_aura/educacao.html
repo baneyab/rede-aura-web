@@ -1,0 +1,224 @@
+{% extends 'rede_aura/base_dashboard.html' %}
+
+{% block aura_content %}
+
+<style>
+    /* --- ESTILOS EXCLUSIVOS DA PÁGINA EDUCAÇÃO --- */
+
+    /* Banner Principal */
+    .education-banner {
+        background: linear-gradient(90deg, #a93eff 0%, #ff4eb8 100%);
+        color: white;
+        border-radius: 20px;
+        padding: 40px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 20px rgba(169, 62, 255, 0.2);
+    }
+
+    /* Cards de Categorias (Topo) */
+    .category-card {
+        background: white;
+        border-radius: 20px;
+        border: none;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        transition: transform 0.2s;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .category-card:hover { transform: translateY(-5px); }
+
+    .icon-square {
+        width: 50px; height: 50px; border-radius: 12px;
+        display: flex; align-items: center; justify-content: center;
+        color: white; font-size: 24px; margin-bottom: 15px;
+    }
+
+    /* Lista de Conteúdos (Destaques) */
+    .content-card {
+        background: white;
+        border-radius: 20px;
+        border: 1px solid #f0f0f0;
+        padding: 20px;
+        margin-bottom: 15px;
+        transition: 0.2s;
+        display: flex;
+        align-items: center;
+    }
+    .content-card:hover { border-color: #a93eff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+
+    .content-icon {
+        width: 60px; height: 60px; border-radius: 15px;
+        display: flex; align-items: center; justify-content: center;
+        color: white; font-size: 28px; margin-right: 20px; flex-shrink: 0;
+    }
+
+    /* Cards de Tópicos (Grid 2x3) */
+    .topic-card {
+        background: white;
+        border: 1px solid #eee;
+        border-radius: 15px;
+        padding: 20px;
+        transition: 0.2s;
+        height: 100%;
+        margin-bottom: 20px;
+        cursor: pointer;
+    }
+    .topic-card:hover { 
+        border-color: #a93eff; 
+        transform: translateY(-2px); 
+        box-shadow: 0 5px 15px rgba(169, 62, 255, 0.1);
+    }
+
+    /* FAQ (Perguntas Frequentes) */
+    .faq-card {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        border: 1px solid #eee;
+        margin-top: 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    }
+    .faq-item {
+        border-bottom: 1px solid #f0f0f0;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+    .faq-item:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+</style>
+
+<div class="education-banner">
+    <h2 class="font-weight-bold mb-2">Centro Educacional</h2>
+    <p class="mb-0" style="opacity: 0.9;">Conheça seus direitos e acesse conteúdos educativos sobre a Lei Maria da Penha</p>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4 mb-3">
+        <div class="category-card">
+            <div class="icon-square" style="background: #a93eff;"><i class="fas fa-file-alt"></i></div>
+            <h5 class="font-weight-bold text-dark mb-1">Seus Direitos</h5>
+            <p class="text-muted small mb-0">12 artigos</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="category-card">
+            <div class="icon-square" style="background: #ff4757;"><i class="fas fa-video"></i></div>
+            <h5 class="font-weight-bold text-dark mb-1">Vídeos</h5>
+            <p class="text-muted small mb-0">8 vídeos</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="category-card">
+            <div class="icon-square" style="background: #00a8ff;"><i class="fas fa-graduation-cap"></i></div>
+            <h5 class="font-weight-bold text-dark mb-1">Cursos</h5>
+            <p class="text-muted small mb-0">5 cursos</p>
+        </div>
+    </div>
+</div>
+
+<h5 class="font-weight-bold mb-4" style="color: #333;">Conteúdo em Destaque</h5>
+
+{% for item in conteudos %}
+<a href="{{ item.link_conteudo }}" target="_blank" class="text-decoration-none">
+    <div class="content-card">
+        <div class="content-icon" style="background: {% if item.tipo == 'VIDEO' %}#ff4757{% else %}#a93eff{% endif %};">
+            {% if item.tipo == 'VIDEO' %}<i class="fas fa-video"></i>{% else %}<i class="fas fa-file-alt"></i>{% endif %}
+        </div>
+        <div>
+            <h6 class="font-weight-bold text-dark mb-1">{{ item.titulo }}</h6>
+            <p class="text-muted small mb-1">{{ item.descricao|truncatechars:100 }}</p>
+            <small style="color: #666;"><i class="far fa-clock mr-1"></i> {{ item.duracao|default:"5 min" }} • {{ item.categoria }}</small>
+        </div>
+    </div>
+</a>
+{% empty %}
+<div class="content-card">
+    <div class="content-icon" style="background: #a93eff;"><i class="fas fa-file-alt"></i></div>
+    <div>
+        <h6 class="font-weight-bold text-dark mb-1">Lei Maria da Penha: O que você precisa saber</h6>
+        <p class="text-muted small mb-1">Entenda seus direitos e como a lei te protege em situações de violência doméstica.</p>
+        <small style="color: #666;">10 min de leitura - Direitos</small>
+    </div>
+</div>
+<div class="content-card">
+    <div class="content-icon" style="background: #ff4757;"><i class="fas fa-video"></i></div>
+    <div>
+        <h6 class="font-weight-bold text-dark mb-1">Como solicitar medida protetiva de urgência</h6>
+        <p class="text-muted small mb-1">Passo a passo completo para solicitar proteção judicial.</p>
+        <small style="color: #666;">15 min - Tutorial</small>
+    </div>
+</div>
+<div class="content-card">
+    <div class="content-icon" style="background: #a93eff;"><i class="fas fa-file-alt"></i></div>
+    <div>
+        <h6 class="font-weight-bold text-dark mb-1">Tipos de violência: Saiba identificar</h6>
+        <p class="text-muted small mb-1">A violência pode ser física, psicológica, moral, patrimonial ou sexual</p>
+        <small style="color: #666;">8 min de leitura - Educação</small>
+    </div>
+</div>
+{% endfor %}
+
+<h5 class="font-weight-bold mt-5 mb-4" style="color: #333;">Principais Tópicos</h5>
+<div class="row">
+    <div class="col-md-6">
+        <div class="topic-card">
+            <h6 class="text-dark mb-1 font-weight-bold">Medidas Protetivas</h6>
+            <small class="text-muted">15 artigos</small>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="topic-card">
+            <h6 class="text-dark mb-1 font-weight-bold">Violência Psicológica</h6>
+            <small class="text-muted">12 artigos</small>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="topic-card">
+            <h6 class="text-dark mb-1 font-weight-bold">Independência Financeira</h6>
+            <small class="text-muted">18 artigos</small>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="topic-card">
+            <h6 class="text-dark mb-1 font-weight-bold">Rede de Apoio</h6>
+            <small class="text-muted">10 artigos</small>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="topic-card">
+            <h6 class="text-dark mb-1 font-weight-bold">Direitos Trabalhistas</h6>
+            <small class="text-muted">8 artigos</small>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="topic-card">
+            <h6 class="text-dark mb-1 font-weight-bold">Saúde Mental</h6>
+            <small class="text-muted">14 artigos</small>
+        </div>
+    </div>
+</div>
+
+<h5 class="font-weight-bold mt-4 mb-3" style="color: #333;">Perguntas Frequentes</h5>
+<div class="faq-card shadow-sm">
+    
+    <div class="faq-item">
+        <h6 class="font-weight-bold text-dark">O que é uma medida protetiva de urgência?</h6>
+        <p class="text-muted small mb-0" style="line-height: 1.6;">É uma decisão judicial que visa proteger a mulher em situação de violência doméstica, podendo incluir o afastamento do agressor, proibição de contato e aproximação.</p>
+    </div>
+
+    <div class="faq-item">
+        <h6 class="font-weight-bold text-dark">Como denunciar violência doméstica?</h6>
+        <p class="text-muted small mb-0" style="line-height: 1.6;">Você pode ligar 180 (Central de Atendimento à Mulher), 190 (Polícia Militar) ou comparecer a uma Delegacia da Mulher. A denúncia pode ser anônima.</p>
+    </div>
+
+    <div class="faq-item">
+        <h6 class="font-weight-bold text-dark">Quanto tempo demora para conseguir uma medida protetiva?</h6>
+        <p class="text-muted small mb-0" style="line-height: 1.6;">O juiz tem até 48 horas para decidir sobre o pedido de medida protetiva após receber a solicitação da autoridade policial.</p>
+    </div>
+
+</div>
+
+<div style="height: 50px;"></div>
+{% endblock %}

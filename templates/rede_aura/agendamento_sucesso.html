@@ -1,0 +1,56 @@
+{% extends 'rede_aura/base_dashboard.html' %}
+
+{% block aura_content %}
+<div class="container text-center">
+    
+    <div class="alert alert-success d-flex align-items-center mb-5 shadow" role="alert" style="border-radius: 15px;">
+        <i class="fas fa-check-circle fa-2x mr-3"></i>
+        <div>
+            <h4 class="alert-heading mb-0 font-weight-bold">Agendamento Confirmado!</h4>
+            <p class="mb-0">Sua consulta foi marcada com sucesso.</p>
+        </div>
+    </div>
+
+    <h5 class="font-weight-bold mb-3 text-dark">Detalhes da Consulta</h5>
+    
+    <div class="card border-0 shadow-lg" style="border-radius: 20px;">
+        <div class="card-body p-4">
+            
+            <div class="d-flex align-items-center mb-4">
+                <div class="bg-primary text-white rounded-circle p-3 mr-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-user-md fa-lg"></i>
+                </div>
+                <div>
+                    <h5 class="mb-0 font-weight-bold text-primary">{{ agendamento.profissional.nome }}</h5>
+                    <p class="text-muted mb-0">{{ agendamento.profissional.profissao }} | {{ agendamento.profissional.area.nome }}</p>
+                </div>
+            </div>
+
+            <ul class="list-group list-group-flush text-left">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span class="text-muted"><i class="fas fa-calendar-alt mr-2"></i> Data</span>
+                    <span class="font-weight-bold">{{ agendamento.data_hora|date:"d/m/Y" }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span class="text-muted"><i class="fas fa-clock mr-2"></i> Horário</span>
+                    <span class="font-weight-bold">{{ agendamento.data_hora|date:"H:i" }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span class="text-muted"><i class="fas fa-hospital-alt mr-2"></i> Tipo</span>
+                    <span class="badge badge-pill badge-info p-2 px-3">{{ agendamento.tipo }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span class="text-muted"><i class="fas fa-info-circle mr-2"></i> Status</span>
+                    <span class="badge badge-pill badge-success p-2 px-3">{{ agendamento.status }}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="{% url 'apoio' %}" class="btn btn-outline-secondary rounded-pill px-4">Voltar para Apoio</a>
+        <button class="btn btn-primary rounded-pill px-4 ml-3">Adicionar ao Calendário</button>
+    </div>
+
+</div>
+{% endblock %}

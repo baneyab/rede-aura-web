@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rede Aura - Entrar</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #a93eff 0%, #ff4eb8 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+
+        .card-login {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .logo-box {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #a93eff, #ff4eb8);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px auto;
+            color: white;
+            font-size: 32px;
+            box-shadow: 0 5px 15px rgba(169, 62, 255, 0.3);
+        }
+
+        .brand-title {
+            color: #a93eff;
+            font-weight: 700;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .brand-subtitle {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 30px;
+            display: block;
+        }
+
+        .form-control-aura {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            height: 50px;
+            padding-left: 20px;
+            font-size: 14px;
+        }
+        .form-control-aura:focus {
+            border-color: #a93eff;
+            box-shadow: 0 0 0 3px rgba(169, 62, 255, 0.1);
+        }
+
+        .btn-gradient {
+            background: linear-gradient(90deg, #a93eff, #ff4eb8);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            height: 50px;
+            width: 100%;
+            margin-top: 10px;
+            transition: transform 0.2s;
+        }
+        .btn-gradient:hover {
+            transform: scale(1.02);
+            color: white;
+        }
+
+        .btn-emergency {
+            background-color: #ff3b30;
+            color: white;
+            font-weight: 700;
+            border-radius: 12px;
+            height: 50px;
+            width: 100%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(255, 59, 48, 0.3);
+        }
+        .btn-emergency:hover { background-color: #d63030; color: white; text-decoration: none; }
+
+        .link-text { color: #a93eff; font-weight: 700; text-decoration: none; }
+        .link-text:hover { color: #8e2de2; text-decoration: none; }
+        
+        .divider {
+            display: flex; align-items: center; text-align: center;
+            color: #adb5bd; font-size: 12px; margin: 20px 0;
+        }
+        .divider::before, .divider::after {
+            content: ''; flex: 1; border-bottom: 1px solid #eee;
+        }
+        .divider:not(:empty)::before { margin-right: .5em; }
+        .divider:not(:empty)::after { margin-left: .5em; }
+    </style>
+</head>
+<body>
+
+    <div class="card-login">
+        <div class="logo-box">
+            <i class="fas fa-shield-alt"></i>
+        </div>
+        <h2 class="brand-title">Rede Aura</h2>
+        <span class="brand-subtitle">Entre na sua conta</span>
+
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+                <div class="alert alert-danger small p-2 rounded">Usuário ou senha incorretos.</div>
+            {% endif %}
+
+            <div class="form-group text-left">
+                <label class="small font-weight-bold text-muted ml-1">E-mail</label>
+                <input type="text" name="username" class="form-control form-control-aura" placeholder="seu@email.com" required>
+            </div>
+
+            <div class="form-group text-left position-relative">
+                <label class="small font-weight-bold text-muted ml-1">Senha</label>
+                <input type="password" name="password" class="form-control form-control-aura" placeholder="Digite sua senha" required>
+                <i class="far fa-eye position-absolute text-muted" style="right: 15px; top: 40px; cursor: pointer;"></i>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="custom-control custom-checkbox small">
+                    <input type="checkbox" class="custom-control-input" id="lembrar">
+                    <label class="custom-control-label text-muted" for="lembrar">Lembrar-me</label>
+                </div>
+                <a href="#" class="small link-text" style="font-weight: 600;">Esqueceu a senha?</a>
+            </div>
+
+            <button type="submit" class="btn btn-gradient">Entrar</button>
+        </form>
+
+        <div class="divider">ou</div>
+
+        <p class="small text-muted mb-0">
+            Ainda não tem conta? <a href="{% url 'cadastro' %}" class="link-text">Cadastre-se</a>
+        </p>
+
+        <a href="tel:190" class="btn-emergency">
+            Emergência - Ligar 190
+        </a>
+        
+        <div class="mt-4 text-muted" style="font-size: 10px; line-height: 1.2;">
+            Em parceria com<br>Polícia Militar de Santa Catarina
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,213 @@
+{% extends 'rede_aura/base_dashboard.html' %}
+
+{% block aura_content %}
+
+<style>
+    /* Mapa Arredondado */
+    #map {
+        height: 450px; /* Aumentei um pouco para caber a busca confortavelmente */
+        width: 100%;
+        border-radius: 20px;
+        z-index: 1;
+    }
+
+    /* Estilo da Barra de Pesquisa (Google Style) */
+    .search-map-input {
+        background-color: #fff;
+        font-family: 'Nunito', sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        margin-top: 10px;
+        margin-left: 10px;
+        padding: 0 20px;
+        border-radius: 30px;
+        width: 300px;
+        height: 45px;
+        border: none;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        outline: none;
+        color: #333;
+    }
+    .search-map-input:focus {
+        box-shadow: 0 4px 20px rgba(111, 66, 193, 0.2); /* Sombra Roxa no foco */
+    }
+
+    /* Card Principal */
+    .map-container-card {
+        background: white;
+        padding: 10px;
+        border-radius: 25px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        margin-bottom: 20px;
+    }
+
+    /* Cards de Status */
+    .status-card {
+        border-radius: 15px;
+        padding: 15px;
+        border: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+        min-height: 90px;
+    }
+
+    .status-green { background-color: #e8f5e9; color: #2e7d32; }
+    .status-blue { background-color: #e3f2fd; color: #1565c0; }
+
+    .dot {
+        height: 10px; width: 10px; border-radius: 50%;
+        display: inline-block; margin-right: 8px;
+    }
+    .dot-green { background-color: #2ecc71; }
+
+    .status-title {
+        font-weight: 700; font-size: 15px; margin-bottom: 3px;
+        display: flex; align-items: center;
+    }
+
+    .status-text { font-size: 12px; opacity: 0.9; margin-left: 18px; }
+</style>
+
+<h4 class="font-weight-bold mb-3 text-dark">Localização e Monitoramento</h4>
+
+<div class="map-container-card">
+    <input id="pac-input" class="search-map-input" type="text" placeholder="🔍 Buscar endereço ou local...">
+    
+    <div id="map"></div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <div class="status-card status-green">
+            <div class="status-title">
+                <span class="dot dot-green"></span> GPS Ativo
+            </div>
+            <div class="status-text">Conectado ao Google Maps</div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <div class="status-card status-blue">
+            <div class="status-title">
+                <i class="fas fa-map-marker-alt mr-2" style="font-size: 14px;"></i> Zona Segura
+            </div>
+            <div class="status-text">Você está em área segura</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function initMap() {
+        // 1. Ponto Central
+        const centro = { lat: -27.5954, lng: -48.5480 };
+        
+        // 2. Cria o Mapa
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 13,
+            center: centro,
+            disableDefaultUI: false, 
+            mapTypeControl: false, // Remove botão de Satélite/Mapa pra limpar visual
+            styles: [
+                { "featureType": "poi", "elementType": "labels.text", "stylers": [{ "visibility": "off" }] }
+            ]
+        });
+
+        // --- BARRA DE PESQUISA (NOVO) ---
+        const input = document.getElementById("pac-input");
+        const searchBox = new google.maps.places.SearchBox(input);
+
+        // Coloca a barra dentro do mapa (Topo Esquerda)
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        // Ouve a mudança de visualização para ajustar a busca
+        map.addListener("bounds_changed", () => {
+            searchBox.setBounds(map.getBounds());
+        });
+
+        let markers = [];
+
+        // Quando o usuário seleciona um local na busca
+        searchBox.addListener("places_changed", () => {
+            const places = searchBox.getPlaces();
+
+            if (places.length == 0) {
+                return;
+            }
+
+            // Limpa marcadores antigos da busca
+            markers.forEach((marker) => {
+                marker.setMap(null);
+            });
+            markers = [];
+
+            // Para cada lugar, ajusta o mapa e cria marcador
+            const bounds = new google.maps.LatLngBounds();
+            
+            places.forEach((place) => {
+                if (!place.geometry || !place.geometry.location) {
+                    console.log("Local sem geometria");
+                    return;
+                }
+
+                // Cria marcador azul para o local buscado
+                markers.push(
+                    new google.maps.Marker({
+                        map,
+                        title: place.name,
+                        position: place.geometry.location,
+                        animation: google.maps.Animation.DROP
+                    })
+                );
+
+                if (place.geometry.viewport) {
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
+            });
+            map.fitBounds(bounds);
+        });
+        // --- FIM DA BUSCA ---
+
+
+        // 3. Loop para criar Marcadores do Banco de Dados (Locais de Apoio)
+        {% for local in locais %}
+            {% if local.latitude != 0.0 %}
+                
+                const marker{{ local.id }} = new google.maps.Marker({
+                    position: { 
+                        lat: {{ local.latitude|stringformat:"f" }}, 
+                        lng: {{ local.longitude|stringformat:"f" }} 
+                    },
+                    map: map,
+                    title: "{{ local.nome }}",
+                    // Ícone personalizado Roxo da Aura
+                    icon: {
+                        url: "http://maps.google.com/mapfiles/ms/icons/purple-dot.png"
+                    }
+                });
+
+                const infoWindow{{ local.id }} = new google.maps.InfoWindow({
+                    content: `
+                        <div style="padding:5px; color:#333; font-family:'Nunito';">
+                            <strong>{{ local.nome }}</strong><br>
+                            <small>{{ local.endereco }}</small><br>
+                            <a href="tel:{{ local.telefone }}" style="color:#6f42c1; font-weight:bold;">Ligar: {{ local.telefone }}</a>
+                        </div>
+                    `
+                });
+
+                marker{{ local.id }}.addListener("click", () => {
+                    infoWindow{{ local.id }}.open(map, marker{{ local.id }});
+                });
+
+            {% endif %}
+        {% endfor %}
+    }
+</script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDiMhR86gz4a2CiNEw9yjLqva-HNtmqlw8&libraries=places&callback=initMap"></script>
+
+{% endblock %}

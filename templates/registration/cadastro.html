@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rede Aura - Criar Conta</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #a93eff 0%, #ff4eb8 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .card-signup {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        .form-control-aura {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            height: 50px;
+            padding-left: 15px;
+            font-size: 14px;
+        }
+        .btn-gradient {
+            background: linear-gradient(90deg, #a93eff, #ff4eb8);
+            border: none; border-radius: 12px; color: white; font-weight: 700;
+            height: 50px; width: 100%; margin-top: 20px;
+        }
+        .btn-gradient:hover { transform: scale(1.01); color: white; }
+        .back-btn { color: #6c757d; font-size: 20px; text-decoration: none; }
+        .back-btn:hover { color: #333; }
+        .form-label { font-size: 12px; font-weight: 700; color: #666; margin-left: 5px; margin-bottom: 5px; display: block; }
+    </style>
+</head>
+<body>
+
+    <div class="card-signup">
+        <div class="d-flex align-items-center mb-4">
+            <a href="{% url 'login' %}" class="back-btn mr-3"><i class="fas fa-arrow-left"></i></a>
+            <div>
+                <h3 style="font-weight: 700; color: #a93eff; margin: 0;">Criar conta</h3>
+                <small class="text-muted">Preencha seus dados para começar</small>
+            </div>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+                <div class="alert alert-danger small p-2">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <p class="m-0"><strong>{{ field.label }}:</strong> {{ error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <p class="m-0">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Primeiro Nome</label>
+                    <input type="text" name="first_name" class="form-control form-control-aura" placeholder="Seu nome" required>
+                </div>
+                 <div class="col-md-6 mb-3">
+                    <label class="form-label">Sobrenome</label>
+                    <input type="text" name="last_name" class="form-control form-control-aura" placeholder="Seu sobrenome" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Telefone</label>
+                    <input type="text" name="fone" class="form-control form-control-aura" placeholder="(00) 00000-0000" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">E-mail</label>
+                    <input type="email" name="username" class="form-control form-control-aura" placeholder="seu@email.com" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Senha</label>
+                    <input type="password" name="password1" class="form-control form-control-aura" placeholder="Crie uma senha" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Confirmar senha</label>
+                    <input type="password" name="password2" class="form-control form-control-aura" placeholder="Confirme sua senha" required>
+                </div>
+            </div>
+
+            <div class="custom-control custom-checkbox mt-2">
+                <input type="checkbox" class="custom-control-input" id="termos" required>
+                <label class="custom-control-label small text-muted" for="termos">Declaro que li e aceito os termos de uso.</label>
+            </div>
+
+            <button type="submit" class="btn btn-gradient">Criar conta</button>
+        </form>
+
+        <p class="text-center mt-4 small text-muted">
+            Já tem uma conta? <a href="{% url 'login' %}" style="color: #a93eff; font-weight: bold;">Entrar</a>
+        </p>
+    </div>
+
+</body>
+</html>
