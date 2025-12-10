@@ -5,69 +5,142 @@
 <style>
     /* --- ESTILOS DOS STORIES --- */
     .stories-container {
-        display: flex; overflow-x: auto; padding: 10px 0; margin-bottom: 20px; scrollbar-width: none;
+        display: flex;
+        overflow-x: auto;
+        padding: 10px 0;
+        margin-bottom: 20px;
+        scrollbar-width: none;
     }
     .stories-container::-webkit-scrollbar { display: none; }
     
     .story-item {
-        display: flex; flex-direction: column; align-items: center; margin-right: 18px; cursor: pointer; min-width: 70px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-right: 18px;
+        cursor: pointer;
+        min-width: 70px;
     }
 
     .story-ring {
-        width: 68px; height: 68px; border-radius: 50%; padding: 3px;
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        padding: 3px;
         background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-        display: flex; align-items: center; justify-content: center; margin-bottom: 5px; transition: transform 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 5px;
+        transition: transform 0.2s;
     }
     .story-ring:hover { transform: scale(1.05); }
 
     .story-avatar {
-        width: 100%; height: 100%; border-radius: 50%; background-color: #fff; border: 3px solid #fff;
-        display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 1.2rem; overflow: hidden;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background-color: #fff;
+        border: 3px solid #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: white;
+        font-size: 1.2rem;
+        overflow: hidden;
     }
     .story-avatar img { width: 100%; height: 100%; object-fit: cover; }
 
-    .story-name { font-size: 11px; color: #555; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 70px; }
+    .story-name {
+        font-size: 11px;
+        color: #555;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 70px;
+    }
 
     /* --- ESTILOS DO POST --- */
     .create-post-card, .card-post {
-        background: white; border-radius: 20px; border: none; padding: 20px; margin-bottom: 20px;
+        background: white;
+        border-radius: 20px;
+        border: none;
+        padding: 20px;
+        margin-bottom: 20px;
         box-shadow: 0 2px 10px rgba(0,0,0,0.02);
     }
     .create-post-card { display: flex; align-items: center; }
     
     .input-post {
-        background: #f8f9fa; border: none; border-radius: 30px; padding: 12px 20px; width: 100%; margin-left: 15px; font-size: 14px; color: #555;
+        background: #f8f9fa;
+        border: none;
+        border-radius: 30px;
+        padding: 12px 20px;
+        width: 100%;
+        margin-left: 15px;
+        font-size: 14px;
+        color: #555;
     }
     .input-post:focus { outline: none; background: #f0f2f5; }
-    
-    /* AVATAR DO POST (IMPORTANTE) */
+
+    /* Avatar do card de criação de post */
     .post-avatar-container {
-        width: 45px; height: 45px; min-width: 45px;
-        border-radius: 50%; overflow: hidden; margin-right: 15px;
+        width: 45px;
+        height: 45px;
+        min-width: 45px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 15px;
     }
     .post-avatar-img {
-        width: 100%; height: 100%; object-fit: cover;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
     .post-avatar-initials {
-        width: 100%; height: 100%;
-        display: flex; align-items: center; justify-content: center;
-        font-weight: bold; color: white; font-size: 18px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: white;
+        font-size: 18px;
         background-color: #a93eff;
     }
 
-    /* ÁREA DE COMENTÁRIOS */
+    /* Comentários */
     .comment-section {
-        background-color: #f8f9fa; border-radius: 15px; padding: 15px; margin-top: 15px; display: none;
+        background-color: #f8f9fa;
+        border-radius: 15px;
+        padding: 15px;
+        margin-top: 15px;
+        display: none;
     }
-    .comment-item { font-size: 13px; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-    
-    /* BOTÕES DE AÇÃO */
+    .comment-item {
+        font-size: 13px;
+        margin-bottom: 8px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 5px;
+    }
+
+    /* Botões */
     .btn-action {
-        background: none; border: none; color: #6c757d; cursor: pointer; font-size: 14px;
-        transition: 0.2s; text-decoration: none; display: flex; align-items: center; margin-right: 20px;
+        background: none;
+        border: none;
+        color: #6c757d;
+        cursor: pointer;
+        font-size: 14px;
+        transition: 0.2s;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
     }
-    .btn-action:hover { color: #a93eff; text-decoration: none; }
-    
+    .btn-action:hover { color: #a93eff; }
+
     .dropdown-toggle::after { display: none; }
 </style>
 
@@ -76,6 +149,7 @@
     <!-- 1. STORIES -->
     <div class="card border-0 shadow-sm mb-4 p-3" style="border-radius: 20px;">
         <div class="stories-container">
+
             <!-- Seu Story -->
             <div class="story-item">
                 <div class="story-ring" style="background: #e0e0e0;">
@@ -97,24 +171,28 @@
                 </div>
                 <span class="story-name">Ana Paula</span>
             </div>
+
             <div class="story-item">
                 <div class="story-ring">
                     <div class="story-avatar" style="background: #0984e3;">CL</div>
                 </div>
                 <span class="story-name">Carla</span>
             </div>
+
             <div class="story-item">
                 <div class="story-ring">
                     <div class="story-avatar" style="background: #00b894;">JU</div>
                 </div>
                 <span class="story-name">Juliana</span>
             </div>
+
             <div class="story-item">
                 <div class="story-ring">
                     <div class="story-avatar" style="background: #fdcb6e;">BE</div>
                 </div>
                 <span class="story-name">Beatriz</span>
             </div>
+
         </div>
     </div>
 
@@ -143,8 +221,11 @@
     <!-- 3. LISTA DE POSTS -->
     {% for post in posts %}
     <div class="card-post">
+
+        <!-- Header do Post -->
         <div class="d-flex justify-content-between mb-3">
             <div class="d-flex align-items-center">
+
                 <div class="post-avatar-container">
                     {% if post.autor.planoseguranca.foto %}
                         <img src="{{ post.autor.planoseguranca.foto.url }}" class="post-avatar-img">
@@ -156,13 +237,13 @@
                 </div>
 
                 <div>
-                    <h6 class="font-weight-bold m-0 text-dark">
-                        {{ post.autor.first_name|default:post.autor.username }}
-                    </h6>
+                    <h6 class="font-weight-bold m-0 text-dark">{{ post.autor.first_name|default:post.autor.username }}</h6>
                     <small class="text-muted">{{ post.data_criacao|timesince }} atrás</small>
                 </div>
+
             </div>
 
+            <!-- Menu -->
             <div class="dropdown">
                 <button class="btn btn-link text-muted p-0 dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 20px;">
                     <i class="fas fa-ellipsis-h"></i>
@@ -180,10 +261,12 @@
             </div>
         </div>
 
+        <!-- Conteúdo -->
         <p class="text-dark mb-3" style="line-height: 1.6; font-size: 15px;">
             {{ post.texto }}
         </p>
         
+        <!-- Ações -->
         <div class="d-flex align-items-center text-muted small mt-3 pt-3 border-top">
             <a href="{% url 'curtir_post' post.id %}" class="btn-action">
                 <i class="far fa-heart mr-1" style="font-size: 16px;"></i> {{ post.curtidas }}
@@ -194,7 +277,9 @@
             </button>
         </div>
 
+        <!-- Comentários -->
         <div id="comments-{{ post.id }}" class="comment-section">
+
             {% for comentario in post.comentarios.all %}
                 <div class="comment-item d-flex">
                     <strong class="mr-2 text-dark">{{ comentario.autor.first_name|default:comentario.autor.username }}:</strong>
@@ -212,6 +297,7 @@
                 </button>
             </form>
         </div>
+
     </div>
     {% empty %}
         <div class="text-center py-5 text-muted">
@@ -232,4 +318,5 @@
         }
     }
 </script>
+
 {% endblock %}
