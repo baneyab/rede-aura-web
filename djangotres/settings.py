@@ -16,23 +16,34 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-z*t6)n$q&1#xy%jcqc8=me_%@v!7=lq^%_+f6)t!tu_j=%l6y$'
+# Read secret key from env (fallback only for dev)
+SECRET_KEY = os.getenv(
+    "DJANGO_SECRET_KEY",
+    "dev-insecure-key-change-me"  # only used if env var is missing
+)
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG off by default; set DJANGO_DEBUG=True in .env if you want debug
+DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ['*']
+# Space-separated list in env, e.g. "redeaura.site www.redeaura.site"
+ALLOWED_HOSTS = os.getenv(
+    "DJANGO_ALLOWED_HOSTS",
+    ""
+).split()
 
+# For CSRF with HTTPS behind Caddy (very important in production)
+CSRF_TRUSTED_ORIGINS = os.getenv(
+    "DJANGO_CSRF_TRUSTED_ORIGINS",
+    ""
+).split()
 
-# Application definition
+# If you want Django to know it's behind a reverse proxy with HTTPS:
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 INSTALLED_APPS = [
     'django.contrib.admin',
-    'django.contrib.auth',
+    'django.contrib.auth', 
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -68,6 +79,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'djangotres.context_processors.google_maps_api_key',
             ],
         },
     },
@@ -128,6 +141,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage" # deploy
+
+GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY", "")
 
 
 AUTH_USER_MODEL = 'usuarios.ModelUsuario'
