@@ -87,6 +87,9 @@ def feed(request):
 
 @login_required
 def comunidade(request):
+    # Garante que o plano existe para o user atual
+    plano, created = PlanoSeguranca.objects.get_or_create(usuario=request.user)
+
     if request.method == 'POST':
         Postagem.objects.create(
             autor=request.user,
@@ -95,9 +98,12 @@ def comunidade(request):
         )
         return redirect('comunidade')
 
-    # Pega todos os posts ordenados por data
     posts = Postagem.objects.all().order_by('-data_criacao')
-    return render(request, 'rede_aura/comunidade.html', {'posts': posts})
+    return render(request, 'rede_aura/comunidade.html', {
+        'posts': posts,
+        'plano': plano,              # passa o plano também
+    })
+
 
 
 @login_required
@@ -231,12 +237,18 @@ def editar_perfil(request):
     if request.method == 'POST':
         form = EditarPerfilForm(request.POST, request.FILES, instance=plano)
         if form.is_valid():
-            form.save()
-            # Salva dados do Usuário (Nome, Telefone)
+            plano = form.save()
+
             user = request.user
             user.first_name = form.cleaned_data['first_name']
             user.last_name = form.cleaned_data['last_name']
+            user.email = form.cleaned_data['email']
             user.fone = form.cleaned_data['fone']
+
+            # se ModelUsuario tiver campo foto, sincroniza
+            if hasattr(user, "foto") and plano.foto:
+                user.foto = plano.foto
+
             user.save()
             return redirect('perfil')
     else:
@@ -244,11 +256,15 @@ def editar_perfil(request):
             'first_name': request.user.first_name,
             'last_name': request.user.last_name,
             'email': request.user.email,
-            'fone': request.user.fone
+            'fone': getattr(request.user, 'fone', ''),
         }
         form = EditarPerfilForm(instance=plano, initial=initial_data)
 
-    return render(request, 'rede_aura/editar_perfil.html', {'form': form})
+    return render(request, 'rede_aura/editar_perfil.html', {
+        'form': form,
+        'plano': plano,
+    })
+
 
 
 @login_required
